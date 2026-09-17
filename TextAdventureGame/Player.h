@@ -27,4 +27,5 @@ public:
 	void displayInventory() const;
 
 	bool hasItem(const std::string& itemName) const;
+	bool removeItem(const std::string& itemName);
 };

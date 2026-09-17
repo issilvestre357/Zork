@@ -73,7 +73,7 @@ void Room::displayItemsInRoom() const
 	}
 	for (size_t i = 0; i < itemsInRoom.size(); i++)
 	{
-		std::cout << itemsInRoom[i].getItemName() << std::endl;
+		std::cout <<"You see a " << itemsInRoom[i].getItemName() <<", on the ground." << "\nWould you like to pick it up or move on?" << std::endl;
 	}
 }
 

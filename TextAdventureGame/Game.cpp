@@ -57,9 +57,10 @@ bool Game::start()
 {
     std::string input;
 
-    std::cout << "You wake up dazed in a pizzeria, what do you do?" << std::endl;
+    std::cout << "You wake up dazed in a pizzeria dining room, what do you do?" << std::endl;
     std::cout << player.getCurrentRoom()->getRoomDescription() << std::endl;
     player.getCurrentRoom()->displayItemsInRoom();
+    std::cout << "Which way would you like to go: " << "North, South, East, or West." << std::endl;
     
     while (true)
     {
@@ -92,6 +93,8 @@ bool Game::start()
             std::cout << "Restart cancelled." << std::endl;
             continue;
         }
+
+
         if (input.find("quit") != std::string::npos)
         {
             std::string answer;
@@ -136,6 +139,29 @@ bool Game::start()
             itemName = "exit key";
         }
         
+
+        if ((input.find("use ") != std::string::npos || input.find("install ") != std::string::npos || input.find("put ") != std::string::npos) && itemName == "fuse")
+        {
+            if (player.getCurrentRoom()->getRoomName() != "supply closet")
+            {
+                std::cout << "There's nowhere to use the Fuse here." << std::endl;
+            }
+            else if (!player.hasItem("Fuse"))
+            {
+                std::cout << "You don't have the Fuse." << std::endl;
+            }
+            else
+            {
+                player.removeItem("Fuse");
+                kitchen.setLightState(true);
+
+                std::cout << "You install the Fuse. The power comes back on!" << std::endl;
+                std::cout << "You hear the kitchen lights flicker to life." << std::endl;
+            }
+            continue;
+        }
+        
+
         if ((input.find("pick up") != std::string::npos || input.find("grab") != std::string::npos || input.find("take") != std::string::npos) && itemName != "")
         {
             player.pickUpItem(itemName);
@@ -157,17 +183,14 @@ bool Game::start()
         {
             player.move("north");
         }
-
         else if (input.find("south") != std::string::npos)
         {
             player.move("south");
         }
-
         else if (input.find("east") != std::string::npos)
         {
             player.move("east");
         }
-
         else if (input.find("west") != std::string::npos)
         {
             player.move("west");
@@ -178,6 +201,6 @@ bool Game::start()
         {
             std::cout << "I don't know that one try something else." << std::endl;
         }
-        return false;
     }
+    return false;
 }

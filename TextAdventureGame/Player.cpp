@@ -177,3 +177,16 @@ void Player::displayInventory() const
 		}
 	}
 }
+
+bool Player::removeItem(const std::string& itemName)
+{
+	for (size_t i = 0; i < carriedItems.size(); i++)
+	{
+		if (carriedItems[i].getItemName() == "Tool Belt")
+		{
+			return carriedItems[i].removeFromInv(itemName);
+		}
+	}
+
+	return false;
+}
