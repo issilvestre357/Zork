@@ -30,10 +30,9 @@ public:
 	void displayItemsInRoom() const;
 	void addItemToRoom(const Item& item);
 	void removeItemFromRoom(const std::string& itemName);
-	
 	void setLightState(bool lightInput);
-	
 	void connectRoom(const std::string& direction, Room& room, bool locked, const std::string& requiredKey);
+	void setRoomDescription(const std::string& description);
 
 	Connection* getConnection(const std::string& direction);
 	Item* getItem(const std::string& itemName);

@@ -90,6 +90,11 @@ void Room::connectRoom(const std::string& direction, Room& room, bool locked, co
 	
 }
 
+void Room::setRoomDescription(const std::string& description)
+{
+	roomDescription = description;
+}
+
 Connection* Room::getConnection(const std::string& direction)
 {
 	auto it = connections.find(direction);

@@ -64,8 +64,10 @@ bool Game::start()
     
     while (true)
     {
+        Room* roomBeforeCommand = player.getCurrentRoom();
+
         std::cout << "\n> ";
-    std:getline(std::cin, input);
+        std:getline(std::cin, input);
 
 
         for (size_t i = 0; i < input.size(); i++)
@@ -121,7 +123,6 @@ bool Game::start()
 
 
 
-
         if (input.find("tool belt") != std::string::npos)
         {
             itemName = "tool belt";
@@ -137,28 +138,6 @@ bool Game::start()
         else if (input.find("exit key") != std::string::npos)
         {
             itemName = "exit key";
-        }
-        
-
-        if ((input.find("use ") != std::string::npos || input.find("install ") != std::string::npos || input.find("put ") != std::string::npos) && itemName == "fuse")
-        {
-            if (player.getCurrentRoom()->getRoomName() != "supply closet")
-            {
-                std::cout << "There's nowhere to use the Fuse here." << std::endl;
-            }
-            else if (!player.hasItem("Fuse"))
-            {
-                std::cout << "You don't have the Fuse." << std::endl;
-            }
-            else
-            {
-                player.removeItem("Fuse");
-                kitchen.setLightState(true);
-
-                std::cout << "You install the Fuse. The power comes back on!" << std::endl;
-                std::cout << "You hear the kitchen lights flicker to life." << std::endl;
-            }
-            continue;
         }
         
 
@@ -195,12 +174,18 @@ bool Game::start()
         {
             player.move("west");
         }
-
-
         else
         {
             std::cout << "I don't know that one try something else." << std::endl;
         }
+
+
+        if (player.getCurrentRoom() != roomBeforeCommand &&
+            player.getCurrentRoom()->getRoomName() == "supply closet")
+        {
+            handleSupplyCloset();
+        }
+
 
         if (player.getCurrentRoom()->getRoomName() == "exit")
         {
@@ -226,3 +211,52 @@ bool Game::start()
     }
     return false;
 }
+
+void Game::handleSupplyCloset()
+{
+    if (fuseInstalled)
+    {
+        return;
+    }
+
+    std::string answer;
+
+    std::cout << "\nYou notice an empty fuse slot in the electrical panel." << std::endl;
+    std::cout << "Would you like to use the Fuse? Yes or no: ";
+
+    std::getline(std::cin, answer);
+
+    for (size_t i = 0; i < answer.size(); i++)
+    {
+        answer[i] = static_cast<char>(std::tolower(answer[i]));
+    }
+
+    if (answer == "yes" || answer == "y")
+    {
+        if (!player.hasItem("Fuse"))
+        {
+            std::cout << "You don't have the Fuse yet." << std::endl;
+            std::cout << "What will you do next?" << std::endl;
+            return;
+        }
+
+        player.removeItem("Fuse");
+
+        kitchen.setLightState(true);
+        fuseInstalled = true;
+
+        supplyCloset.setRoomDescription
+        ("A cramped supply closet full of electrical equipment. The fuse is installed and the electrical panel is humming normally.");
+
+        std::cout << "\nYou install the Fuse into the electrical panel." << std::endl;
+        std::cout << "The power comes back on!" << std::endl;
+        std::cout << "You hear the kitchen lights flicker to life." << std::endl;
+        std::cout << "What do you do next" << std::endl;
+
+        return;
+    }
+
+    std::cout << "You leave the electrical panel alone for now." << std::endl;
+    std::cout << "What will you do next?" << std::endl;
+}
+

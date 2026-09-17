@@ -17,7 +17,10 @@ private:
 
 	Player player;
 
+	bool fuseInstalled = false;
+
 	void setUpWorld();
+	void handleSupplyCloset();
 
 
 public:
