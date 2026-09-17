@@ -145,6 +145,23 @@ bool Game::start()
         {
             player.pickUpItem(itemName);
         }
+        else if ((input.find("pick up") != std::string::npos || input.find("grab") != std::string::npos || input.find("take") != std::string::npos) && itemName == "")
+        {
+            std::string requestedItem;
+
+            std::cout << "What item would you like to pick up?" << std::endl;
+            player.getCurrentRoom()->displayItemsInRoom(true);
+            std::cout << "\n> ";
+            std::getline(std::cin, requestedItem);
+
+            for (size_t i = 0; i < requestedItem.size(); i++)
+            {
+                requestedItem[i] =
+                    static_cast<char>(std::tolower(requestedItem[i]));
+            }
+
+            player.pickUpItem(requestedItem);
+        }
         else if ((input.find("drop") != std::string::npos || input.find("leave") != std::string::npos) && itemName != "")
         {
             player.dropItem(itemName);
@@ -157,6 +174,10 @@ bool Game::start()
         {
             std::cout << player.getCurrentRoom()->getRoomDescription() << std::endl;
             player.getCurrentRoom()->displayItemsInRoom();
+        }
+        else if (input == "move on" || input == "move")
+        {
+            std::cout << "Which way would you like to go, north, south, east, or west." << std::endl;
         }
         else if (input.find("north") != std::string::npos)
         {

@@ -61,19 +61,28 @@ void Room::removeItemFromRoom(const std::string& itemName)
 	}
 }
 
-void Room::displayItemsInRoom() const
+void Room::displayItemsInRoom(bool namesOnly) const
 {
-	if (roomName == "kitchen" && isLightOn == false) 
+	if (roomName == "kitchen" && isLightOn == false)
 	{
 		return;
 	}
+
 	if (itemsInRoom.empty())
 	{
 		return;
 	}
+
 	for (size_t i = 0; i < itemsInRoom.size(); i++)
 	{
-		std::cout <<"You see a " << itemsInRoom[i].getItemName() <<", on the ground." << "\nWould you like to pick it up or move on?" << std::endl;
+		if (namesOnly)
+		{
+			std::cout << itemsInRoom[i].getItemName() << std::endl;
+		}
+		else
+		{
+			std::cout << "You see a " << itemsInRoom[i].getItemName() << " on the ground." << std::endl;
+		}
 	}
 }
 

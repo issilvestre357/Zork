@@ -27,7 +27,7 @@ public:
 	const std::string& getRoomName() const;
 	std::string getRoomDescription() const;
 	
-	void displayItemsInRoom() const;
+	void displayItemsInRoom(bool namesOnly = false) const;
 	void addItemToRoom(const Item& item);
 	void removeItemFromRoom(const std::string& itemName);
 	void setLightState(bool lightInput);
