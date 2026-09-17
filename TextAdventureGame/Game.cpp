@@ -9,10 +9,10 @@ Game::Game()
 	
 	: eatingArea("Eating Area", "The main dining area of the pizzeria."),
 	  bathroom("Bathroom", "A small bathroom. It looks like someone left something behind."),
-	  exitRoom("Exit", "The front exit. Freedom is right in front of you."),
-	  guardRoom("Guard Room", "A small security room filled with old equipment, seems like somethings missing on the panel."),
+	  exitRoom("Exit", " "),
+	  guardRoom("Guard Room", "A small security room filled with old equipment"),
 	  kitchen("Kitchen", "The pizzeria kitchen."),
-	  supplyCloset("Supply Closet", "A cramped supply closet full of electrical equipment."),
+	  supplyCloset("Supply Closet", "A cramped supply closet full of electrical equipment, this panel could sure use some work!"),
 
 	  player(eatingArea)
 {
@@ -200,6 +200,28 @@ bool Game::start()
         else
         {
             std::cout << "I don't know that one try something else." << std::endl;
+        }
+
+        if (player.getCurrentRoom()->getRoomName() == "exit")
+        {
+            std::string answer;
+
+            std::cout << "\nYou made it out of the pizzeria!" << std::endl;
+            std::cout << "Congratulations, you escaped!" << std::endl;
+            std::cout << "Would you like to play again? Yes or no: ";
+
+            std::getline(std::cin, answer);
+
+            for (size_t i = 0; i < answer.size(); i++)
+            {
+                answer[i] = static_cast<char>(std::tolower(answer[i]));
+            }
+
+            if (answer == "yes" || answer == "y")
+            {
+                return true;
+            }
+            return false;
         }
     }
     return false;

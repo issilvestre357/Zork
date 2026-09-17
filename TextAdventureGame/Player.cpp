@@ -21,13 +21,14 @@ bool Player::hasItem(const std::string& itemName) const
 		{
 			return true;
 		}
-		if (carriedItems[i].getItemName() == (itemName))
+
+		if (carriedItems[i].hasItem(itemName))
 		{
 			return true;
 		}
 	}
-	return false;
-}\
+		return false;
+}
 
 void Player::move(const std::string& direction)
 {
