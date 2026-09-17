@@ -24,5 +24,5 @@ public:
 	
 	Game();
 
-	void start();
+	bool start();
 };

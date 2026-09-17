@@ -53,7 +53,7 @@ void Game::setUpWorld()
     guardRoom.addItemToRoom(exitKey);
 }
 
-void Game::start()
+bool Game::start()
 {
     std::string input;
 
@@ -71,6 +71,48 @@ void Game::start()
         {
             input[i] = static_cast<char>(std::tolower(input[i]));
         }
+
+        if (input.find("restart") != std::string::npos)
+        {
+            std::string answer;
+
+            std::cout << "Would you really like to restart? Yes or no: ";
+            std::getline(std::cin, answer);
+
+            for (size_t i = 0; i < answer.size(); i++)
+            {
+                answer[i] = static_cast<char>(std::tolower(answer[i]));
+            }
+
+            if (answer == "yes" || answer == "y")
+            {
+                return true;
+            }
+
+            std::cout << "Restart cancelled." << std::endl;
+            continue;
+        }
+        if (input.find("quit") != std::string::npos)
+        {
+            std::string answer;
+
+            std::cout << "Thanks for playing!" << std::endl;
+            std::cout << "Would you like to restart? Yes or no: ";
+            std::getline(std::cin, answer);
+
+            for (size_t i = 0; i < answer.size(); i++)
+            {
+                answer[i] = static_cast<char>(std::tolower(answer[i]));
+            }
+
+            if (answer == "yes" || answer == "y")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
 
         std::string itemName = "";
 
@@ -93,6 +135,49 @@ void Game::start()
         {
             itemName = "exit key";
         }
- 
+        
+        if ((input.find("pick up") != std::string::npos || input.find("grab") != std::string::npos || input.find("take") != std::string::npos) && itemName != "")
+        {
+            player.pickUpItem(itemName);
+        }
+        else if ((input.find("drop") != std::string::npos || input.find("leave") != std::string::npos) && itemName != "")
+        {
+            player.dropItem(itemName);
+        }
+        else if (input.find("inventory") != std::string::npos)
+        {
+            player.displayInventory();
+        }
+        else if ((input.find("look") != std::string::npos || input.find("see") != std::string::npos))
+        {
+            std::cout << player.getCurrentRoom()->getRoomDescription() << std::endl;
+            player.getCurrentRoom()->displayItemsInRoom();
+        }
+        else if (input.find("north") != std::string::npos)
+        {
+            player.move("north");
+        }
+
+        else if (input.find("south") != std::string::npos)
+        {
+            player.move("south");
+        }
+
+        else if (input.find("east") != std::string::npos)
+        {
+            player.move("east");
+        }
+
+        else if (input.find("west") != std::string::npos)
+        {
+            player.move("west");
+        }
+
+
+        else
+        {
+            std::cout << "I don't know that one try something else." << std::endl;
+        }
+        return false;
     }
 }
